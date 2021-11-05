@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "ht4315.h": "c",
+        "xutility": "c",
+        "string": "c",
+        "initializer_list": "c",
+        "type_traits": "c",
+        "xstring": "c"
+    }
+}
