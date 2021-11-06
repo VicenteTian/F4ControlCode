@@ -48,7 +48,7 @@ void set_Motor_angle(int16_t angle)
     data[0] = (uint8_t)count;
     data[1] = (uint8_t)(count >> 8);
     data[2] = (uint8_t)(count >> 16);
-    data[3] = (int8_t)(count >> 24);
+    data[3] = (uint8_t)(count >> 24);
     RS485Trans(0, Motor2, MotorPosCtrl, 4, data);
     RS458RE;
 }

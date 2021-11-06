@@ -99,7 +99,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    set_Motor_angle(-30);
+    set_Motor_angle(-65);
     HAL_Delay(600);
     set_Motor_angle(70);
     HAL_Delay(600);
