@@ -86,10 +86,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART1_UART_Init();
   MX_USART3_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  printf("hello");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,10 +99,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    set_Motor_angle(-65);
-    HAL_Delay(600);
-    set_Motor_angle(70);
-    HAL_Delay(600);
+    set_Motor_angle(0);
+    HAL_Delay(1000);
+    set_Motor_angle(120);
+    HAL_Delay(1000);
+		    set_Motor_angle(240);
+    HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
