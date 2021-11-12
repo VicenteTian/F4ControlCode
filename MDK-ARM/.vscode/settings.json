@@ -5,6 +5,12 @@
         "string": "c",
         "initializer_list": "c",
         "type_traits": "c",
-        "xstring": "c"
+        "xstring": "c",
+        "usart.h": "c",
+        "atomic": "c",
+        "cstring": "c",
+        "memory": "c",
+        "xmemory": "c",
+        "uart.h": "c"
     }
 }

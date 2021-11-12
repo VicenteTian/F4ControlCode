@@ -3,16 +3,16 @@
         {
             "name": "F4ControlCode",
             "includePath": [
-                "f:\\files\\LR\\proj\\F4ControlCode\\Core\\Inc",
-                "f:\\files\\LR\\proj\\F4ControlCode\\Drivers\\STM32F4xx_HAL_Driver\\Inc",
-                "f:\\files\\LR\\proj\\F4ControlCode\\Drivers\\STM32F4xx_HAL_Driver\\Inc\\Legacy",
-                "f:\\files\\LR\\proj\\F4ControlCode\\Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Include",
-                "f:\\files\\LR\\proj\\F4ControlCode\\Drivers\\CMSIS\\Include",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Core\\Inc",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Drivers\\STM32F4xx_HAL_Driver\\Inc",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Drivers\\STM32F4xx_HAL_Driver\\Inc\\Legacy",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Drivers\\CMSIS\\Device\\ST\\STM32F4xx\\Include",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Drivers\\CMSIS\\Include",
                 "C:\\SoftWare\\MDK5\\ARM\\ARMCC\\include",
                 "C:\\SoftWare\\MDK5\\ARM\\ARMCC\\include\\rw",
-                "f:\\files\\LR\\proj\\F4ControlCode\\MDK-ARM",
-                "f:\\files\\LR\\proj\\F4ControlCode\\Core\\Src",
-                "f:\\files\\LR\\proj\\F4ControlCode\\Drivers\\STM32F4xx_HAL_Driver\\Src"
+                "d:\\files\\LR\\proj\\F4ControlCode\\MDK-ARM",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Core\\Src",
+                "d:\\files\\LR\\proj\\F4ControlCode\\Drivers\\STM32F4xx_HAL_Driver\\Src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",

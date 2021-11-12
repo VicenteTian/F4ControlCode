@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -87,6 +88,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   printf("hello");
@@ -99,12 +101,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    set_Motor_angle(0);
-    HAL_Delay(1000);
-    set_Motor_angle(120);
-    HAL_Delay(1000);
-		    set_Motor_angle(240);
-    HAL_Delay(1000);
+    if (recv_end_flag)
+    {
+      vParseString(rx_buffer);
+      memset(rx_buffer, 0, rx_len);
+      rx_len = 0;                                            //清除计数
+      recv_end_flag = 0;                                     //清除接收结束标志位
+      HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE); //重新打开DMA接收
+    }
   }
   /* USER CODE END 3 */
 }

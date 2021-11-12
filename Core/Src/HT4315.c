@@ -41,7 +41,7 @@ HAL_StatusTypeDef RS485Trans(uint8_t sequence, uint8_t slaver_addr, uint8_t cmd,
     RS458DE;
     return HAL_UART_Transmit(&huart3, RS485TxBuff, 7 + data_len, 50);
 }
-void set_Motor_angle(int16_t angle)
+void set_Motor_angle(uint8_t slaver_addr, int16_t angle)
 {
     uint8_t data[4] = {0};
     int32_t count = angle * 16384 / 360;
@@ -49,6 +49,30 @@ void set_Motor_angle(int16_t angle)
     data[1] = (uint8_t)(count >> 8);
     data[2] = (uint8_t)(count >> 16);
     data[3] = (uint8_t)(count >> 24);
-    RS485Trans(0, Motor2, MotorPosCtrl, 4, data);
+    RS485Trans(0, slaver_addr, MotorPosCtrl, 4, data);
     RS458RE;
+}
+void vParseString(uint8_t *buff)
+{
+    char *pBuffMotor1;
+    char *pBuffMotor2;
+    int16_t Motor1Angle = 0;
+    int16_t Motor2Angle = 0;
+    //获取电机字符串指针
+    pBuffMotor1 = strstr((const char *)buff, ":");
+    //指针+1，取出正确的头指针
+    pBuffMotor1++;
+    pBuffMotor2 = strstr((const char *)pBuffMotor1, ":");
+    if (pBuffMotor1 != NULL)
+    {
+        Motor1Angle = atoi(strtok(pBuffMotor1, ","));
+    }
+    if (pBuffMotor2 != NULL)
+    {
+        //指针+1，取出正确的头指针
+        pBuffMotor2++;
+        Motor2Angle = atoi(strtok(pBuffMotor2, ","));
+    }
+    set_Motor_angle(Motor2,Motor2Angle);
+    //printf("%d %d",Motor1Angle,Motor2Angle);
 }

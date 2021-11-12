@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 #include "usart.h"
+#include "string.h"
+#include <stdlib.h>
 
 #define husart_debug     huart1        //printf���ô��ں�
 void uart_putchar (UART_HandleTypeDef *huart,char ch);//����һ���ַ�

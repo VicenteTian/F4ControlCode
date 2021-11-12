@@ -1,14 +1,8 @@
-/*
- * @Author: Tian Wei
- * @Date: 2021-11-12 19:36:56
- * @Description: 
- * @Version: V1.0
- */
 /**
   ******************************************************************************
-  * @file    usart.h
+  * @file    dma.h
   * @brief   This file contains all the function prototypes for
-  *          the usart.c file
+  *          the dma.c file
   ******************************************************************************
   * @attention
   *
@@ -23,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USART_H__
-#define __USART_H__
+#ifndef __DMA_H__
+#define __DMA_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,22 +27,17 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+/* DMA memory to memory transfer handles -------------------------------------*/
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart3;
-
 /* USER CODE BEGIN Private defines */
-#define BUFFER_SIZE 40
-extern volatile uint8_t rx_len;  //接收帧数据的长度
-extern volatile uint8_t recv_end_flag; //帧数据接收完成标
-extern uint8_t rx_buffer[BUFFER_SIZE];  //接收数据缓存数组
+
 /* USER CODE END Private defines */
 
-void MX_USART1_UART_Init(void);
-void MX_USART3_UART_Init(void);
+void MX_DMA_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -58,6 +47,6 @@ void MX_USART3_UART_Init(void);
 }
 #endif
 
-#endif /* __USART_H__ */
+#endif /* __DMA_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

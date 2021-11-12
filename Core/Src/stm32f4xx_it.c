@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file    stm32f4xx_it.c
-  * @brief   Interrupt Service Routines.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    stm32f4xx_it.c
+ * @brief   Interrupt Service Routines.
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -23,6 +23,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "UART.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,6 +57,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_usart1_rx;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
@@ -65,8 +68,8 @@ extern UART_HandleTypeDef huart1;
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
-  * @brief This function handles Non maskable interrupt.
-  */
+ * @brief This function handles Non maskable interrupt.
+ */
 void NMI_Handler(void)
 {
   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
@@ -81,8 +84,8 @@ void NMI_Handler(void)
 }
 
 /**
-  * @brief This function handles Hard fault interrupt.
-  */
+ * @brief This function handles Hard fault interrupt.
+ */
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
@@ -96,8 +99,8 @@ void HardFault_Handler(void)
 }
 
 /**
-  * @brief This function handles Memory management fault.
-  */
+ * @brief This function handles Memory management fault.
+ */
 void MemManage_Handler(void)
 {
   /* USER CODE BEGIN MemoryManagement_IRQn 0 */
@@ -111,8 +114,8 @@ void MemManage_Handler(void)
 }
 
 /**
-  * @brief This function handles Pre-fetch fault, memory access fault.
-  */
+ * @brief This function handles Pre-fetch fault, memory access fault.
+ */
 void BusFault_Handler(void)
 {
   /* USER CODE BEGIN BusFault_IRQn 0 */
@@ -126,8 +129,8 @@ void BusFault_Handler(void)
 }
 
 /**
-  * @brief This function handles Undefined instruction or illegal state.
-  */
+ * @brief This function handles Undefined instruction or illegal state.
+ */
 void UsageFault_Handler(void)
 {
   /* USER CODE BEGIN UsageFault_IRQn 0 */
@@ -141,8 +144,8 @@ void UsageFault_Handler(void)
 }
 
 /**
-  * @brief This function handles System service call via SWI instruction.
-  */
+ * @brief This function handles System service call via SWI instruction.
+ */
 void SVC_Handler(void)
 {
   /* USER CODE BEGIN SVCall_IRQn 0 */
@@ -154,8 +157,8 @@ void SVC_Handler(void)
 }
 
 /**
-  * @brief This function handles Debug monitor.
-  */
+ * @brief This function handles Debug monitor.
+ */
 void DebugMon_Handler(void)
 {
   /* USER CODE BEGIN DebugMonitor_IRQn 0 */
@@ -167,8 +170,8 @@ void DebugMon_Handler(void)
 }
 
 /**
-  * @brief This function handles Pendable request for system service.
-  */
+ * @brief This function handles Pendable request for system service.
+ */
 void PendSV_Handler(void)
 {
   /* USER CODE BEGIN PendSV_IRQn 0 */
@@ -180,8 +183,8 @@ void PendSV_Handler(void)
 }
 
 /**
-  * @brief This function handles System tick timer.
-  */
+ * @brief This function handles System tick timer.
+ */
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
@@ -201,17 +204,56 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles USART1 global interrupt.
-  */
+ * @brief This function handles USART1 global interrupt.
+ */
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+  if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) != RESET) // idle标志被置
+  {
+    __HAL_UART_CLEAR_IDLEFLAG(&huart1); //清除标志
+    HAL_UART_DMAStop(&huart1);
+    rx_len = BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); //总计数减去未传输的数据个数，得到已经接收的数据个数
+    recv_end_flag = 1;                                             // 接受完成标志位置1
+  }
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+ * @brief This function handles DMA2 stream2 global interrupt.
+ */
+void DMA2_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA2_Stream2_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream2_IRQn 1 */
+}
+
+/**
+ * @brief This function handles DMA2 stream7 global interrupt.
+ */
+void DMA2_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 0 */
+  huart1.gState = HAL_UART_STATE_READY;
+  hdma_usart1_tx.State = HAL_DMA_STATE_READY;
+  __HAL_DMA_CLEAR_FLAG(&hdma_usart1_tx, DMA_FLAG_TCIF3_7);
+  __HAL_DMA_CLEAR_FLAG(&hdma_usart1_tx, DMA_FLAG_HTIF3_7);
+  __HAL_DMA_CLEAR_FLAG(&hdma_usart1_tx, DMA_FLAG_FEIF3_7);
+  __HAL_UNLOCK(&hdma_usart1_tx);
+  /* USER CODE END DMA2_Stream7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+  /* USER CODE BEGIN DMA2_Stream7_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream7_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

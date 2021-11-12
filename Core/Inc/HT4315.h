@@ -24,6 +24,7 @@
 
 uint16_t CRC16_MODBUS(uint8_t *Buff, uint8_t len);
 HAL_StatusTypeDef RS485Trans(uint8_t sequence, uint8_t slaver_addr, uint8_t cmd, uint8_t data_len, uint8_t *data);
-void set_Motor_angle(int16_t angle);
+void set_Motor_angle(uint8_t slaver_addr, int16_t angle);
+void vParseString(uint8_t *buff);
 
 #endif
