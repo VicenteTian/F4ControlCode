@@ -20,12 +20,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "HT4315.h"
+#include "StepMotor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,8 +92,17 @@ int main(void)
   MX_USART3_UART_Init();
   MX_DMA_Init();
   MX_USART1_UART_Init();
+  MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
   printf("hello");
+  HAL_TIM_Base_Start(&htim8);
+  HAL_TIM_OC_Start_IT(&htim8, TIM_CHANNEL_1);
+  TIM_CCxChannelCmd(TIM8, TIM_CHANNEL_1, TIM_CCx_DISABLE);
+  MotorUp();
+  MotorEnable();
+  TIM_CCxChannelCmd(TIM8, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+  HAL_Delay(5000);
+  MotorDisable();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,7 +117,7 @@ int main(void)
       vParseString(rx_buffer);
       memset(rx_buffer, 0, rx_len);
       rx_len = 0;                                            //清除计数
-      recv_end_flag = 0;                                     //清除接收结束标志位
+      recv_end_flag = 0;                                     //清除接收结束标志�?
       HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE); //重新打开DMA接收
     }
   }

@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    usart.h
+  * @file    tim.h
   * @brief   This file contains all the function prototypes for
-  *          the usart.c file
+  *          the tim.c file
   ******************************************************************************
   * @attention
   *
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USART_H__
-#define __USART_H__
+#ifndef __TIM_H__
+#define __TIM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,18 +31,15 @@ extern "C" {
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart3;
+extern TIM_HandleTypeDef htim8;
 
 /* USER CODE BEGIN Private defines */
-#define BUFFER_SIZE 40
-extern volatile uint8_t rx_len;  //接收帧数据的长度
-extern volatile uint8_t recv_end_flag; //帧数据接收完成标
-extern uint8_t rx_buffer[BUFFER_SIZE];  //接收数据缓存数组
+
 /* USER CODE END Private defines */
 
-void MX_USART1_UART_Init(void);
-void MX_USART3_UART_Init(void);
+void MX_TIM8_Init(void);
+
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -52,6 +49,6 @@ void MX_USART3_UART_Init(void);
 }
 #endif
 
-#endif /* __USART_H__ */
+#endif /* __TIM_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
