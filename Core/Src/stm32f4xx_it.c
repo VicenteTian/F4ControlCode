@@ -58,8 +58,11 @@
 
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim8;
+extern DMA_HandleTypeDef hdma_uart5_rx;
+extern DMA_HandleTypeDef hdma_uart5_tx;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
+extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
 
@@ -205,6 +208,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles DMA1 stream0 global interrupt.
+  */
+void DMA1_Stream0_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream0_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_uart5_rx);
+  /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream0_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
@@ -214,7 +231,7 @@ void USART1_IRQHandler(void)
   {
     __HAL_UART_CLEAR_IDLEFLAG(&huart1); //清除标志
     HAL_UART_DMAStop(&huart1);
-    rx_len = BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�?
+    rx_len = BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�?
     recv_end_flag = 1;                                             // 接受完成标志位置1
   }
   /* USER CODE END USART1_IRQn 0 */
@@ -236,6 +253,45 @@ void TIM8_CC_IRQHandler(void)
   /* USER CODE BEGIN TIM8_CC_IRQn 1 */
 
   /* USER CODE END TIM8_CC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA1 stream7 global interrupt.
+  */
+void DMA1_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream7_IRQn 0 */
+  huart5.gState = HAL_UART_STATE_READY;
+  hdma_uart5_tx.State = HAL_DMA_STATE_READY;
+  __HAL_DMA_CLEAR_FLAG(&hdma_uart5_tx, DMA_FLAG_TCIF3_7);
+  __HAL_DMA_CLEAR_FLAG(&hdma_uart5_tx, DMA_FLAG_HTIF3_7);
+  __HAL_DMA_CLEAR_FLAG(&hdma_uart5_tx, DMA_FLAG_FEIF3_7);
+  __HAL_UNLOCK(&hdma_usart1_tx);
+  /* USER CODE END DMA1_Stream7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_uart5_tx);
+  /* USER CODE BEGIN DMA1_Stream7_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream7_IRQn 1 */
+}
+
+/**
+  * @brief This function handles UART5 global interrupt.
+  */
+void UART5_IRQHandler(void)
+{
+  /* USER CODE BEGIN UART5_IRQn 0 */
+  if (__HAL_UART_GET_FLAG(&huart5, UART_FLAG_IDLE) != RESET) // idle标志被置
+  {
+    __HAL_UART_CLEAR_IDLEFLAG(&huart5); //清除标志
+    HAL_UART_DMAStop(&huart5);
+    rx_len2 = 8 - __HAL_DMA_GET_COUNTER(&hdma_uart5_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�?
+    recv_end_flag2 = 1;                                             // 接受完成标志位置1
+  }
+  /* USER CODE END UART5_IRQn 0 */
+  HAL_UART_IRQHandler(&huart5);
+  /* USER CODE BEGIN UART5_IRQn 1 */
+
+  /* USER CODE END UART5_IRQn 1 */
 }
 
 /**

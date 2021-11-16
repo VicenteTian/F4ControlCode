@@ -1,3 +1,9 @@
+/*
+ * @Author: Tian Wei
+ * @Date: 2021-11-16 12:46:39
+ * @Description: 
+ * @Version: V1.0
+ */
 /**
   ******************************************************************************
   * @file    usart.h
@@ -31,6 +37,7 @@ extern "C" {
 
 /* USER CODE END Includes */
 
+extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart3;
 
@@ -39,8 +46,13 @@ extern UART_HandleTypeDef huart3;
 extern volatile uint8_t rx_len;  //接收帧数据的长度
 extern volatile uint8_t recv_end_flag; //帧数据接收完成标
 extern uint8_t rx_buffer[BUFFER_SIZE];  //接收数据缓存数组
+
+extern volatile uint8_t rx_len2;  //接收帧数据的长度
+extern volatile uint8_t recv_end_flag2; //帧数据接收完成标
+extern uint8_t rx_buffer2[8];  //接收数据缓存数组
 /* USER CODE END Private defines */
 
+void MX_UART5_Init(void);
 void MX_USART1_UART_Init(void);
 void MX_USART3_UART_Init(void);
 

@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "HT4315.h"
 #include "StepMotor.h"
+#include "ForceSensor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,6 +94,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_TIM8_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
   printf("hello");
   HAL_TIM_Base_Start(&htim8);
@@ -115,10 +117,14 @@ int main(void)
     if (recv_end_flag)
     {
       vParseString(rx_buffer);
-      memset(rx_buffer, 0, rx_len);
-      rx_len = 0;                                            //清除计数
-      recv_end_flag = 0;                                     //清除接收结束标志�?
-      HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE); //重新打开DMA接收
+      restartRev1();
+    }
+    getSensor();
+    HAL_Delay(50);
+    if (recv_end_flag2)
+    {
+      vParseSensor();
+      restartRev2();
     }
   }
   /* USER CODE END 3 */

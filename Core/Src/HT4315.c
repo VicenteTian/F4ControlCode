@@ -73,7 +73,14 @@ void vParseString(uint8_t *buff)
         pBuffMotor2++;
         Motor2Angle = atoi(strtok(pBuffMotor2, ","));
     }
-    set_Motor_angle(Motor1,Motor1Angle);
-    set_Motor_angle(Motor2,Motor2Angle);
-    //printf("%d %d",Motor1Angle,Motor2Angle);
+    set_Motor_angle(Motor1, Motor1Angle);
+    set_Motor_angle(Motor2, Motor2Angle);
+    // printf("%d %d",Motor1Angle,Motor2Angle);
+}
+void restartRev1(void)
+{
+    memset(rx_buffer, 0, rx_len);
+    rx_len = 0;                                            //清除计数
+    recv_end_flag = 0;                                     //清除接收结束标志
+    HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE); //重新打开DMA接收
 }

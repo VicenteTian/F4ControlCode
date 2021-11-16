@@ -11,6 +11,7 @@
         "cstring": "c",
         "memory": "c",
         "xmemory": "c",
-        "uart.h": "c"
+        "uart.h": "c",
+        "forcesensor.h": "c"
     }
 }
