@@ -10,7 +10,7 @@ void getSensor(void)
     uint8_t sensorCmd[8] = {0x01U, 0x03U, 0U, 0U, 0U, 0x1U, 0x84U, 0x0aU};
     HAL_UART_Transmit(&huart5, (uint8_t *)sensorCmd, 8, 50);
 }
-void vParseSensor(void)
+void vParseSensor(uint8_t is_send)
 {
     int16_t force = 0;
     force |= rx_buffer2[3];
