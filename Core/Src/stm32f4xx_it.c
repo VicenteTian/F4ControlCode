@@ -231,7 +231,7 @@ void USART1_IRQHandler(void)
   {
     __HAL_UART_CLEAR_IDLEFLAG(&huart1); //清除标志
     HAL_UART_DMAStop(&huart1);
-    rx_len = BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�?
+    rx_len = BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�??
     recv_end_flag = 1;                                             // 接受完成标志位置1
   }
   /* USER CODE END USART1_IRQn 0 */
@@ -284,7 +284,7 @@ void UART5_IRQHandler(void)
   {
     __HAL_UART_CLEAR_IDLEFLAG(&huart5); //清除标志
     HAL_UART_DMAStop(&huart5);
-    rx_len2 = 8 - __HAL_DMA_GET_COUNTER(&hdma_uart5_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�?
+    rx_len2 = 8 - __HAL_DMA_GET_COUNTER(&hdma_uart5_rx); //总计数减去未传输的数据个数，得到已经接收的数据个�??
     recv_end_flag2 = 1;                                             // 接受完成标志位置1
   }
   /* USER CODE END UART5_IRQn 0 */

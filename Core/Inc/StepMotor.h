@@ -15,7 +15,7 @@
 
 #define MotorEnable()             HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_RESET)
 #define MotorDisable()            HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_SET)
-
+void StempMotorStateCtrol(void);
 
 #define STEPMOTOR_TIM_PERIOD                   0xFFFF
 

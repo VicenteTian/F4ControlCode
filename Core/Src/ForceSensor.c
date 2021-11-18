@@ -15,7 +15,7 @@ void vParseSensor(void)
     int16_t force = 0;
     force |= rx_buffer2[3];
     force <<= 8;
-    force |= rx_buffer2[4];
+    force |= rx_buffer2[4];//单位0.1N，实际的力为force*0.1N=force*10g/1kg*10N/kg
     vcan_sendware((uint8_t *)&force, sizeof(force));
 }
 void restartRev2(void)

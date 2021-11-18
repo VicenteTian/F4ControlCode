@@ -12,6 +12,7 @@
         "memory": "c",
         "xmemory": "c",
         "uart.h": "c",
-        "forcesensor.h": "c"
+        "forcesensor.h": "c",
+        "stepmotor.h": "c"
     }
 }

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;      ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;      ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;       ../Drivers/STM32F4xx_HAL_Driver/Inc;       ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;       ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;       ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -407,6 +407,11 @@
               <FileName>StepMotor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\StepMotor.c</FilePath>
+            </File>
+            <File>
+              <FileName>ForceSensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\ForceSensor.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -546,9 +551,9 @@
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
             <File>
-              <FileName>ForceSensor.c</FileName>
+              <FileName>key.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\ForceSensor.c</FilePath>
+              <FilePath>..\Core\Src\key.c</FilePath>
             </File>
           </Files>
         </Group>

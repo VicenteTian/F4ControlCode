@@ -58,12 +58,22 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define K3_Pin GPIO_PIN_2
+#define K3_GPIO_Port GPIOE
+#define K4_Pin GPIO_PIN_3
+#define K4_GPIO_Port GPIOE
+#define K5_Pin GPIO_PIN_4
+#define K5_GPIO_Port GPIOE
 #define RS485_DE_RE_Pin GPIO_PIN_8
 #define RS485_DE_RE_GPIO_Port GPIOH
 #define DIR_Pin GPIO_PIN_3
 #define DIR_GPIO_Port GPIOD
 #define EN_Pin GPIO_PIN_7
 #define EN_GPIO_Port GPIOD
+#define K1_Pin GPIO_PIN_0
+#define K1_GPIO_Port GPIOE
+#define K2_Pin GPIO_PIN_1
+#define K2_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
