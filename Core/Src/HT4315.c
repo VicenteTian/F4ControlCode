@@ -74,8 +74,9 @@ void vParseString(uint8_t *buff)
         Motor2Angle = atoi(strtok(pBuffMotor2, ","));
     }
     set_Motor_angle(Motor1, Motor1Angle);
+    HAL_Delay(5);
     set_Motor_angle(Motor2, Motor2Angle);
-    // printf("%d %d",Motor1Angle,Motor2Angle);
+    //printf("%d %d",Motor1Angle,Motor2Angle);
 }
 void restartRev1(void)
 {
