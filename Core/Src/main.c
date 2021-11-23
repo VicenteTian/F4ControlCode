@@ -34,7 +34,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define TXDCYCLE 50   // 数据发送周期;单位：ms
+#define SAMPLING 0x01 // 采样标记
+#define TXD 0x02      // 发送数据标记
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -55,7 +57,7 @@ __IO uint8_t Time_Flag = 0; // 任务时间标记
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void HAL_SYSTICK_Callback(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -101,6 +103,7 @@ int main(void)
   HAL_TIM_Base_Start(&htim8);
   HAL_TIM_OC_Start_IT(&htim8, TIM_CHANNEL_1);
   bsp_InitKeyVar();
+  PID_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,9 +128,9 @@ int main(void)
     }
     if (recv_end_flag2) //收到力传感器的数据
     {
+      StempMotorPIDCtrol(vParseSensor(Time_Flag & TXD));
       if (Time_Flag & TXD)
       {
-        vParseSensor(1);
         Time_Flag &= ~TXD;
       }
       restartRev2();
@@ -181,7 +184,21 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_SYSTICK_Callback(void)
+{
+  __IO static uint16_t time_count = 0; // 时间计数，每1ms增加一(与滴答定时器频率有关)
+  // 每1ms自动增一
+  time_count++;
+  if (time_count % (SAMPLING_PERIOD) == 0) // 20ms读取一次力传感器数值
+  {
+    Time_Flag |= SAMPLING;
+  }
+  else if (time_count >= TXDCYCLE) // 1s发送一次数据
+  {
+    Time_Flag |= TXD;
+    time_count = 0;
+  }
+}
 /* USER CODE END 4 */
 
 /**

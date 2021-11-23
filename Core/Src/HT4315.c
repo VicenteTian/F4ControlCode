@@ -5,6 +5,7 @@
  * @Version: V1.0
  */
 #include "HT4315.h"
+#include "StepMotor.h"
 uint8_t RS485TxBuff[20] = {0};
 uint8_t RS485RxBuff[20] = {0};
 
@@ -56,8 +57,10 @@ void vParseString(uint8_t *buff)
 {
     char *pBuffMotor1;
     char *pBuffMotor2;
+    char *pBuffForce;
     int16_t Motor1Angle = 0;
     int16_t Motor2Angle = 0;
+    int16_t setForce = 0;
     //获取电机字符串指针
     pBuffMotor1 = strstr((const char *)buff, ":");
     //指针+1，取出正确的头指针
@@ -67,16 +70,24 @@ void vParseString(uint8_t *buff)
     {
         Motor1Angle = atoi(strtok(pBuffMotor1, ","));
     }
+    //指针+1，取出正确的头指针
+    pBuffMotor2++;
+    pBuffForce = strstr((const char *)pBuffMotor2, ":");
     if (pBuffMotor2 != NULL)
     {
-        //指针+1，取出正确的头指针
-        pBuffMotor2++;
+
         Motor2Angle = atoi(strtok(pBuffMotor2, ","));
     }
+    pBuffForce++;
+    if (pBuffForce != NULL)
+    {
+        setForce = atoi(strtok(pBuffForce, ";"));
+    }
+    SetPIDForce(setForce);
     set_Motor_angle(Motor1, Motor1Angle);
     HAL_Delay(5);
     set_Motor_angle(Motor2, Motor2Angle);
-    //printf("%d %d",Motor1Angle,Motor2Angle);
+    // printf("%d %d",Motor1Angle,Motor2Angle);
 }
 void restartRev1(void)
 {

@@ -10,7 +10,7 @@
 #include "usart.h"
 #include "UART.h"
 void getSensor(void);
-void vParseSensor(uint8_t is_send);
+int16_t vParseSensor(uint8_t is_send);
 void restartRev2(void);
 #endif
 
