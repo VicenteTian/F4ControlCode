@@ -84,9 +84,15 @@ void vParseString(uint8_t *buff)
         setForce = atoi(strtok(pBuffForce, ";"));
     }
     SetPIDForce(setForce);
-    set_Motor_angle(Motor1, Motor1Angle);
-    HAL_Delay(5);
-    set_Motor_angle(Motor2, Motor2Angle);
+    if (Motor1Angle < 180 && Motor1Angle > 0)
+    {
+        set_Motor_angle(Motor1, Motor1Angle);
+    }
+    if (Motor2Angle < 180 && Motor2Angle > 0)
+    {
+        HAL_Delay(5);
+        set_Motor_angle(Motor2, Motor2Angle);
+    }
     // printf("%d %d",Motor1Angle,Motor2Angle);
 }
 void restartRev1(void)

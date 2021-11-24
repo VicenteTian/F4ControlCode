@@ -10,12 +10,11 @@
 //包含头文件
 #include "stm32f4xx_hal.h"
 
-#define MAX_SPEED 600
-#define MIN_SPEED 10
+#define MAX_SPEED 1000
+#define MIN_SPEED 1
 #define abs(x) ((x) < 0 ? (-x) : (x))
-#define T1_FREQ 16000
-#define SAMPLING_PERIOD 25                    // 力传感器采样周期 单位ms
-#define FREQ_UINT (T1_FREQ * SAMPLING_PERIOD) //对定时器的频率做单位换算,避免数值太大溢出
+#define SAMPLING_PERIOD 25 // 力传感器采样周期 单位ms
+#define FREQ_UINT 6000     // SystemCoreClock/((Prescaler+1)*2*50)
 
 #define MotorUp() HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET)
 #define MotorDown() HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET)
@@ -23,6 +22,7 @@
 #define MotorEnable() HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_RESET)
 #define MotorDisable() HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_SET)
 void PID_init(void);
+int16_t GetSetForce(void);
 void SetPIDForce(int16_t setForce);
 void StempMotorPIDCtrol(int16_t RealForce);
 void STEPMOTOR_Motion_Ctrl(uint8_t Dir, float Frequency);

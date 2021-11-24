@@ -28,9 +28,13 @@ void PID_init(void)
   sPID.Err = 0;
   sPID.LastError = 0;
   sPID.PrevError = 0;
-  sPID.Kp = 2.0;
+  sPID.Kp = 4.5;
   sPID.Ki = 0.0;
-  sPID.Kd = 0.5;
+  sPID.Kd = 5.5;
+}
+int16_t GetSetForce(void)
+{
+  return sPID.SetPoint;
 }
 void SetPIDForce(int16_t setForce)
 {
@@ -60,14 +64,6 @@ void StempMotorPIDCtrol(int16_t RealForce)
     dir = 0;
   }
   Exp_Val = abs(sPID.MotorSpeed);
-  if (Exp_Val > MAX_SPEED)
-  {
-    Exp_Val = MAX_SPEED;
-  }
-    if (Exp_Val < MIN_SPEED)
-  {
-    Exp_Val = MIN_SPEED;
-  }
   if (IsPIDEnable)
   {
     STEPMOTOR_Motion_Ctrl(dir, Exp_Val);
@@ -76,7 +72,7 @@ void StempMotorPIDCtrol(int16_t RealForce)
 void StempMotorStateCtrol(void)
 {
   static uint8_t dir = 1; // 0 ：下降  1：上升
-  static uint8_t ena = 0; // 0 ：正常运行 1：停机
+  static uint8_t ena = 1; // 0 ：正常运行 1：停机
   uint8_t ucKeyCode;
   ucKeyCode = bsp_GetKey();
   if (ucKeyCode != KEY_NONE)
@@ -106,7 +102,7 @@ void StempMotorStateCtrol(void)
       {
         dir = 0;
       }
-      STEPMOTOR_Motion_Ctrl(dir, 100);
+      STEPMOTOR_Motion_Ctrl(dir, 200);
       break;
     case KEY_3_DOWN:
       if (IsPIDEnable == 0)
@@ -132,29 +128,24 @@ void StempMotorStateCtrol(void)
  */
 void STEPMOTOR_Motion_Ctrl(uint8_t Dir, float Frequency)
 {
-  uint16_t Step_Delay = 0; //步进延时
-  if (Frequency == 0)
-    MotorDisable(); // 停机;
+
+  if (Dir == 1)
+  {
+    MotorUp();
+  }
   else
   {
-    if (Dir == 1)
-    {
-      MotorUp();
-    }
-    else
-    {
-      MotorDown();
-    }
-    /*
-      步进电机速度由定时器输出脉冲频率(f)决定,
-        f = c/F;c是计数器的计数值,F是定时器频率
-      推导过程:(T是定时器输出脉冲周期)
-      T=c*F => f = 1/T = F/c;
-    */
-    Step_Delay = (uint16_t)(FREQ_UINT / Frequency);
-    // MotorEnable();                  // 正常运行
-    Toggle_Pulse = Step_Delay >> 1; //算出来的结果是周期,这里除以2,半周期翻转一次
+    MotorDown();
   }
+  if (Frequency > MAX_SPEED)
+  {
+    Frequency = MAX_SPEED;
+  }
+  if (Frequency < MIN_SPEED)
+  {
+    Frequency = MIN_SPEED;
+  }
+  Toggle_Pulse = (uint16_t)(FREQ_UINT / Frequency);
 }
 
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
